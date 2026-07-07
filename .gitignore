@@ -1,0 +1,53 @@
+# --- Виртуальные окружения ---
+venv/
+env/
+kan_project_env/
+.venv/
+.conda/
+
+# --- Кэш Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# --- Ноутбуки (служебные файлы) ---
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# --- Сгенерированные данные (не храним, код их сам создаст) ---
+*.csv
+*.npy
+*.npz
+data/
+*.h5
+
+# --- Большие файлы моделей ---
+*.pth
+*.pt
+*.ckpt
+*.hdf5
+
+# --- Файлы IDE (редакторов кода) ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Файлы Colab и облачных дисков ---
+sample_data/
+drive/
+MyDrive/
+
+# --- Логи и отчеты временных сборок ---
+*.log
+*.tmp
+build/
+dist/
+*.egg-info/
+
+# --- macOS / Windows системные мусорки ---
+.DS_Store
+Thumbs.db
+desktop.ini
