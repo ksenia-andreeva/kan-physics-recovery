@@ -1,5 +1,5 @@
-pykan==0.2.8
-torch==2.11.0
+git+https://github.com/KindXiaoming/pykan.git@ecde4ec3274d3bef1ad737479cf126aed38ab530
+torch @ https://download.pytorch.org/whl/cpu/torch-2.11.0%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl
 numpy==2.0.2
 matplotlib==3.10.0
 scipy==1.16.3
