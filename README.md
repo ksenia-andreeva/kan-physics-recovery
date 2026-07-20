@@ -22,10 +22,12 @@ kan-physics-recovery/
 │ └── kan_vs_mlp_sp2_4.ipynb
 │
 ├── reports/ # Итоговые отчёты
+│ ├── Отчет по экспериментам.pdf
 │ ├── Обзор KAN.pdf
 │ └── Обзор KAN vs MLP.pdf
 │
 ├── notes/ # Рабочие материалы
+│ ├── Отчет по экспериментам.docx
 │ ├── Обзор KAN.docx
 │ └── Обзор KAN vs MLP.pptx
 │
