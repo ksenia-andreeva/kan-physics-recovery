@@ -11,6 +11,7 @@ kan-physics-recovery/
 │ ├── kan_tutorial.ipynb # Туториалы по библиотеке pykan
 │ ├── kan_vs_mlp_sp1_1sreda.ipynb # Одна среда (k=4.0, c=0.3), шум 1%, сравнение KAN и MLP
 │ ├── kan_vs_mlp_sp1_noise.ipynb # Одна среда, варьирование шума (0%–10%), таблицы MSE и формул
+│ ├── kan_multkan.ipynb # Попытка построения MultKAN с 5 входами, испытание kampiler
 │ └── kan_multiparam_11features.ipynb # Обобщённая модель с расширенным набором признаков (11 входов)
 │
 ├── archive/ # Архивные/неудачные попытки
