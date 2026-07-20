@@ -1,11 +1,11 @@
-# pykan — версия 0.2.8, зафиксированная по коммиту
+# pykan — зафиксированная версия 0.2.8
 git+https://github.com/KindXiaoming/pykan.git@ecde4ec3274d3bef1ad737479cf126aed38ab530
 
-# PyTorch — версия 2.11.0 (CPU-сборка для Google Colab)
-torch @ https://download.pytorch.org/whl/cpu/torch-2.11.0%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl
-
+# Основные зависимости (версии из Colab)
+torch==2.11.0
 numpy==2.0.2
 matplotlib==3.10.0
 scipy==1.16.3
 scikit-learn==1.6.1
 sympy==1.14.0
+pandas>=2.0.0
