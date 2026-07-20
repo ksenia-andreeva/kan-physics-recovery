@@ -1,59 +1,81 @@
-## KAN Physics Recovery: Damped Harmonic Oscillator
+# KAN Physics Recovery
 
-**Project status:** `In progress` (Weeks 1–3 of internship)
+Восстановление закона движения затухающего гармонического осциллятора  
+a = -(k/m)*x -(c/m)*v  
+с помощью сетей Колмогорова–Арнольда (KAN) и сравнение KAN с MLP.
 
-This repository contains my practical work on Kolmogorov–Arnold Networks (KAN). 
-The main goal is to demonstrate the **interpretability** of KAN by recovering the analytical form of a physical law (Newton's second law for a damped oscillator) from synthetic observational data.
-
-## Objective
-
-- Generate synthetic data for the equation: `a = -(k/m)*x - (c/m)*v` using numerical integration (`scipy.integrate.solve_ivp`).
-- Train a small KAN model and compare its performance with a classical MLP with a comparable number of parameters.
-- Use the built-in `auto_symbolic` feature in `pykan` to extract the exact formula and verify the discovered coefficients against true physical constants.
-
-## Repository Structure
-
-```text
-├── notes/                  # Personal notes, ideas, and questions during the internship
-├── papers/                 # Original PDFs of referenced scientific articles
-├── notebooks/              # Jupyter/Google Colab notebooks with all experiments
-├── reports/                # Final report and presentation slides (Week 3)
-├── .gitignore              # Ignored files (caches, envs, datasets)
-├── requirements.txt        # Fixed package versions for reproducibility
-└── README.md               # Project overview (this file)
+## Структура репозитория
+```
+kan-physics-recovery/
+├── notebooks/ # Основные (чистовые) эксперименты
+│ ├── kan_tutorial.ipynb # Туториалы по библиотеке pykan
+│ ├── kan_vs_mlp_sp1_1sreda.ipynb # Одна среда (k=4.0, c=0.3), шум 1%, сравнение KAN и MLP
+│ ├── kan_vs_mlp_sp1_noise.ipynb # Одна среда, варьирование шума (0%–10%), таблицы MSE и формул
+│ └── kan_multiparam_11features.ipynb # Обобщённая модель с расширенным набором признаков (11 входов)
+│
+├── archive/ # Архивные/неудачные попытки
+│ ├── kan_vs_mlp_sp1_noise2.ipynb
+│ ├── kan_vs_mlp_sp2_1.ipynb
+│ ├── kan_vs_mlp_sp2_2.ipynb
+│ ├── kan_vs_mlp_sp2_3.ipynb
+│ └── kan_vs_mlp_sp2_4.ipynb
+│
+├── reports/ # Итоговые отчёты
+│ ├── Обзор KAN.pdf
+│ └── Обзор KAN vs MLP.pdf
+│
+├── notes/ # Рабочие материалы
+│ ├── Обзор KAN.docx
+│ └── Обзор KAN vs MLP.pptx
+│
+├── papers/ # Использованные статьи и ссылки
+│ └── sources.md
+│
+└── README.md
 ```
 
-## Setup
-To reproduce the environment, clone this repository and install the dependencies:
+## Основные эксперименты
 
-```text
-pip install -r requirements.txt
-```
-Note: requirements.txt will be finalized after fixing the exact pykan version during Week 1.
+### 1. Одна среда, шум 1% (`kan_vs_mlp_sp1_1sreda.ipynb`)
+- Параметры: k=4.0, c=0.3, m=1.0
+- Данные: 9 траекторий по 500 точек, аддитивный гауссов шум 1%
+- KAN `[2,2,1]`, grid=10, k=1 (66 параметров) vs MLP `2-16-1` (65 параметров)
+- Результат: MSE KAN ~2.6e-4, MLP ~2.6e-4
+- **Получена линейная формула** -4.0737x -0.3019v -0.0004, близкая к истинной -4.0x -0.3v
+- Построены кривые обучения (шаги L‑BFGS / эпохи Adam)
 
-## Methodology
-1. Data Generation:
-Trajectories are generated using solve_ivp with varied initial conditions and damping constants (k, c) to cover different physical environments. Gaussian noise (1–5%) is added to simulate real measurements.
-2. Models:
-A KAN with shape [2, 1] (or [2, 2, 1]) is compared to an MLP with a similar number of trainable parameters (±30%). Training and validation losses are tracked.
-3. Symbolic Regression:
-The trained KAN is processed via model.auto_symbolic() to retrieve the mathematical expression. Recovered coefficients are compared with the true -k/m and -c/m.
+### 2. Влияние уровня шума (`kan_vs_mlp_sp1_noise.ipynb`)
+- Та же система, уровни шума 0%, 1%, 3%, 5%, 7%, 10%
+- KAN `[2,2,1]`, grid=10, k=1 (66 параметров) vs MLP `2-16-1` (65 параметров)
+- При всех шумах численные коэффициенты α, β остаются близки к истинным -4.0 и -0.3
+- Автоматическая символьная регрессия (`auto_symbolic`) при шуме >3% даёт громоздкие выражения, хотя физический смысл сохраняется
+- Итоговая таблица сравнения MSE и формул для всех уровней шума
 
-## Preliminary Results
-(To be updated after Week 2 experiments)
+### 3. Обобщённая модель с 11 признаками (`kan_multiparam_11features.ipynb`)
+- Входные признаки: x, v, k, c, m, k/m, c/m, kx, cv, kx/m, cv/m
+- Данные: 40500 точек, подвыборка 10000/3000, без шума
+- KAN `[11,2,1]`, grid=3, k=1 (линейные сплайны) -> **близкая формула**  
+  -0.999*(kx/m) - 0.9986*(cv/m) при MSE ~ 10^{-6}
+- Показано, что при разумном инжиниринге признаков KAN безупречно восстанавливает общий физический закон
 
-## Timeline
-Week 1: Literature review (reading papers, understanding KAN vs MLP) and writing a mini-survey.
+## Используемые технологии
+- Python 3.10+
+- PyTorch, NumPy, SciPy, scikit-learn, pandas, matplotlib
+- [pykan](https://github.com/KindXiaoming/pykan) (KAN 2.0) – библиотека Kolmogorov‑Arnold Networks
+- Все ноутбуки рассчитаны на выполнение в Google Colaboratory (CPU)
 
-Week 2: Experiments: data generation, training, symbolic regression, and extracting the formula.
+## Как запустить
 
-Week 3: Finalizing the report, preparing the presentation, and optional PIKAN bonus.
+1. Откройте нужный ноутбук в Colab (ссылки в описании файлов или загрузите из репозитория).
+2. Выполните ячейки последовательно.
+3. При необходимости скорректируйте гиперпараметры (число шагов, порог обрезки, уровень шума).
 
-## Author
-Ksenia Andreeva
-Student
+## Отчёты
+- `reports/Обзор KAN.pdf` – подробный текстовый обзор архитектуры, обучения и возможностей KAN.
+- `reports/Обзор KAN vs MLP.pdf` – презентация‑сравнение KAN и MLP, интерпретируемость, symbolic regression.
 
-## Acknowledgments
-Supervisor: Viktor Kuzminov 
+## Примечание
+Ноутбуки в папке `archive/` содержат неудавшиеся попытки обучения MultKAN и обычного KAN только на 5 исходных входах (MSE > 2). Они сохранены для истории и могут быть удалены без ущерба.
 
-Institution: [Name of your university/organization]
+## Автор
+Ксения Андреева  
