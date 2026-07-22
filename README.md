@@ -21,7 +21,7 @@ kan-physics-recovery/
 │ ├── kan_vs_mlp_sp2_2.ipynb
 │ ├── kan_vs_mlp_sp2_3.ipynb
 │ ├── kan_vs_mlp_sp2_4.ipynb
-│ └── kan_multkan_diskr.ipynb # Устаревшая версия только с дискретными параметрами
+│ └── kan_multkan_diskr.ipynb 
 │
 ├── reports/ # Итоговые отчёты
 │ ├── Отчет по экспериментам.pdf
